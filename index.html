@@ -899,5 +899,28 @@
       });
     });
   </script>
+
+<script src="https://script.google.com/macros/s/AKfycbwgRW3MWi45KxaxaAUbaN__fG13GKcBPpL5V9GjKMO9F4KyMbRqCDCeB5ffeF6kbWrZGg/exec"></script>
+<script>
+  // Hooks all 6 demo forms to your live Google Sheet
+  const EDUFLOW_URL = "https://script.google.com/macros/s/AKfycbwgRW3MWi45KxaxaAUbaN__fG13GKcBPpL5V9GjKMO9F4KyMbRqCDCeB5ffeF6kbWrZGg/exec";
+  document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', () => {
+      const vals = Array.from(form.querySelectorAll('input, select, textarea')).map(el => el.value.trim()).filter(Boolean);
+      const sel = form.querySelector('select');
+      fetch(EDUFLOW_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'submit_lead',
+          studentName: vals[0] || 'Prospective Student',
+          phoneOrEmail: vals[1] || '',
+          courseTarget: sel ? sel.value : 'General Enquiry',
+          leadSource: 'Website Form'
+        })
+      });
+    });
+  });
+</script>
 </body>
 </html>
